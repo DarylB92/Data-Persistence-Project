@@ -29,7 +29,6 @@ public class MenuUIHandling : MonoBehaviour
         }
 
         InstanceMenu = this;
-        DontDestroyOnLoad(gameObject);
         inputName.text = "Default Name";
         LoadProgress();
     }

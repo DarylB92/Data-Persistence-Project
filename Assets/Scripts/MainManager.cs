@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MainManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +42,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
-        bestScore.text = "Best Score :" + MenuUIHandling.InstanceMenu.playerName.text.Substring(13);
+        bestScore.text = "Best Score :" + MenuUIHandling.InstanceMenu.playerName.text.Substring(0);
+        
     }
 
     private void Update()
@@ -61,10 +65,10 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                m_GameOver = false;
-                Int32.TryParse(MenuUIHandling.InstanceMenu.bestScore.Substring(7), out int _out);
-                MenuUIHandling.InstanceMenu.bestScore = bestScore.text;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                bool v = Int32.TryParse(MenuUIHandling.InstanceMenu.bestScore.Substring(0),out int _out);
+                MenuUIHandling.InstanceMenu.bestScore = bestScore.text;
+                
                 if(m_Points > _out)
                 {
                     MenuUIHandling.InstanceMenu.SaveProgress();
@@ -85,10 +89,11 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
         bestScore.text =ScoreText.text;
+        MenuUIHandling.InstanceMenu.SaveProgress();
     }
 
     public void LoadBestScore()
     {
-
+        MenuUIHandling.InstanceMenu.LoadProgress();
     }
 }
